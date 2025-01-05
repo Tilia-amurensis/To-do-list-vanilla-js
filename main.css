@@ -1,23 +1,40 @@
 *,
 *::before,
 *::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 :root {
-    --color-primary: rgb(54, 112, 199);
-    --color-light: #f4f4f4;
-    --color-dark: #333;
-    --color-warning: rgb(99, 36, 36);
+  --color-primary: rgb(54, 112, 199);
+  --color-light: #f4f4f4;
+  --color-dark: #333;
+  --color-warning: rgb(99, 36, 36);
+}
+body {
+  margin: 0;
+  font-family: "Work Suns", sans-serif;
+  font-weight: 300;
+  font-size: 1, 5rem;
+  background-color: var(--color-primary);
+  color: var(--color-light);
 }
 
-body {
-    margin: 0;
-    font-family: "Work Suns", sans-serif;
-    font-weight: 300;
-    font-size: 1,5rem;
-    background-color: var(--color-primary);
-    color: var(--color-light);
+main {
+  display: grid;
+  grid:
+    "..... lists active ....." auto/
+    minmax(100px, 300px) minmax(250px, 500px);
+}
+
+.header {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.title {
+  display: flex;
+  align-content: center;
+  justify-content: center;
 }
