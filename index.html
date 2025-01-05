@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-do-list</title>
+    <link rel="stylesheet" href="main.css" />
+  </head>
+  <body>
+    <div class="container task_list_empty"> 
+        <header>
+            <h1>TODO</h1>
+           <button class="dark-theme" id="dark-theme-btn">
+            <img src="img/icon-moon.svg" alt="Change theme color">
+           </button>
+           <button class="light-theme" id="light-theme-btn">
+            <img src="img/icon-sun.svg" alt="Change theme color">
+           </button>
+        </header>
+        <main>
+            <div class="form_container">
+                <label for="new_task_form"></label>
+                <form id="form">
+                    <input type="text" id="form-control" name="new_task_form" placeholder="Create a new todo">
+                    <small></small>
+                </form>
+                <button type="submit">Submit</button>
+            </div>
+
+            <div class="tasks_container">
+                <section class="tasks">
+                    <ul class="tasks_list">
+    
+                    </ul>
+                </section>
+            </div>
+            
+            
+            
+        </main>
+    <footer>
+    
+    </footer>
+    </div>
+    
+
+  </body>
