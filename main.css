@@ -7,14 +7,16 @@
 }
 
 :root {
-  --color-primary: rgb(54, 112, 199);
+  --color-primary: rgb(18, 1, 1);
   --color-light: #f4f4f4;
   --color-dark: #333;
   --color-warning: rgb(99, 36, 36);
 }
 body {
-  margin: 0;
-  font-family: "Work Suns", sans-serif;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0px 24px;
+  font-family: "Volkorn", sans-serif;
   font-weight: 300;
   font-size: 1, 5rem;
   background-color: var(--color-primary);
@@ -23,18 +25,32 @@ body {
 
 main {
   display: grid;
-  grid:
-    "..... lists active ....." auto/
-    minmax(100px, 300px) minmax(250px, 500px);
+  grid-template-areas: "..... lists active .....";
+  grid-template-rows: auto;
+  grid-template-columns: minmax(100px, 300px) minmax(250px, 500px);
+  gap: 10px;
+  background-image: url(img/background_table.jpeg);
+  background-size: cover;
 }
-
+ .main-block {
+    width: auto;
+    height: 800px;
+ }
 .header {
-    margin-top: 50px;
-    margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 80px;
 }
 
 .title {
   display: flex;
   align-content: center;
   justify-content: center;
+}
+
+footer {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    display: flex;
+    align-content: center;
+    justify-content: center;  
 }
