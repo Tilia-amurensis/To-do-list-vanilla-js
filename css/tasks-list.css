@@ -18,9 +18,8 @@
 }
 
 .active-list {
-    font-weight: 700;
-  }
-  
+  font-weight: 700;
+}
 
 .btn.create {
   font-size: 1.5rem;
@@ -32,3 +31,5 @@
 .btn.create:hover {
   opacity: 0.7;
 }
+
+
