@@ -1,5 +1,5 @@
 :root {
-  --clr-primary: rgb(54, 112, 199);
+  --clr-primary: rgb(101, 124, 100);
   --clr-light: #f4f4f4;
   --clr-dark: #333;
   --clr-warning: rgb(99, 36, 36);
@@ -23,7 +23,7 @@ body {
   grid:
     "header header header header" auto "...... lists  active ......" auto/1fr minmax(
       100px,
-      300px
+      400px
     )
     minmax(250px, 500px) 1fr;
 }
@@ -122,8 +122,6 @@ form {
 }
 
 
-
-
 @media (min-width: 479px) {
   .title {
     line-height: 60px;
@@ -183,7 +181,12 @@ form {
   .all-tasks {
     margin-left: 20px;
   }
+
+  .task-list-title {
+    text-align: left;
+
+  }
   .todo-list {
-    margin-left: 50px;
+    margin-left: 70px;
   }
 }
