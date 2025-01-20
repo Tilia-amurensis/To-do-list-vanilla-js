@@ -135,21 +135,3 @@
 .btn.delete:hover {
   color: var(--clr-warning);
 }
-
-@media (min-height: 320px) {
-  .todo-list {
-    margin: 10px;
-  }
-
-  .list-title {
-
-  }
-
-  div.tasks {
-    text-align: start;
-  }
-
-  input.new.task {
-    max-width: 200px;
-  }
-}
