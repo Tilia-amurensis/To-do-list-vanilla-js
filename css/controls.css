@@ -50,6 +50,12 @@ form {
   color: inherit;
 }
 
+.list-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 @media (min-width: 320px) {
   .main {
     display: flex;
@@ -109,7 +115,6 @@ form {
     max-width: 500px;
     margin-left: 20px;
     margin-top: 20px;
-
   }
 
   div.tasks {
@@ -120,7 +125,6 @@ form {
     max-width: 200px;
   }
 }
-
 
 @media (min-width: 479px) {
   .title {
@@ -184,8 +188,17 @@ form {
 
   .task-list-title {
     text-align: left;
-
   }
+
+  .delete-btn,
+  .complete-btn {
+    background-color: var(--clr-primary);
+    border: none;
+    margin-left: 0.5em;
+    cursor: pointer; /* Робить кнопки клікабельними */
+    display: inline-flex;
+  }
+
   .todo-list {
     margin-left: 70px;
   }

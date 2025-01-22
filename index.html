@@ -6,18 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>To-do-list</title>
     <link rel="stylesheet" href="css/main.css" />
-    
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
+      rel="stylesheet" 
+      integrity="sha384-rbsA2VBKQ2zwh8EWA1WimJkP1FNk8fZgpftO48xeTxp0eZ5pWXBHBd0fP7awP4v3" 
+      crossorigin="anonymous">
+    <!-- Підключення Bootstrap Icons -->
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" 
+      rel="stylesheet">
+    <!-- Підключення Font Awesome -->
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   </head>
+</html>
   <body class="main">
     <h1 class="title">Stuff I need to do</h1>
 
     <div class="all-tasks">
       <h2 class="task-list-title">My lists</h2>
-      <ul class="task-list">
-       <!--<li class="list-name active-list">Youtube</li>
-        <li class="list-name">Work</li>
-        <li class="list-name">Grocery</li>--> 
-      </ul>
+      <ul class="task-list"></ul>
 
       <form action="#">
         <input 
@@ -32,8 +41,8 @@
 
     <div class="todo-list">
       <div class="todo-header">
-        <h2 class="list-title">YouTube</h2>
-        <p class="task-count">3 tasks remaining</p>
+        <h2 class="list-title">Select a list</h2>
+        <p class="task-count">0 tasks remaining</p>
       </div>
 
       <div class="todo-body">
@@ -45,35 +54,11 @@
             />
             <label for="task-1">
               <span class="custom-checkbox"></span>
-              record todo list video
             </label>
           </div>
-          <!-- /task-1 -->
+         
 
-          <div class="task">
-              <input 
-                type="checkbox"
-                id="task-2"
-              />
-              <label for="task-2">
-                <span class="custom-checkbox"></span>
-                another task
-              </label>
-            </div>
-            <!-- /task-2 -->
-
-            <div class="task">
-                <input 
-                  type="checkbox"
-                  id="task-3"
-                />
-                <label for="task-3">
-                  <span class="custom-checkbox"></span>
-                  a third task
-                </label>
-              </div>
-              <!-- /task-3 -->
-        </div>
+         
 
         <div class="new-task-creator">
             <form action="#">
@@ -97,5 +82,9 @@
    
     </div>
     <script src="js/main.js"></script>
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-0ns38cQ2sYsF6UVGBWRK/Juj93bNQVws3wyy61omW7kVxhnI4+/aK8wzj6+7YcmD" 
+      crossorigin="anonymous"></script>
   </body>
 </html>
