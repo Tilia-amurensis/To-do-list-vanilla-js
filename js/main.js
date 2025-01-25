@@ -70,12 +70,12 @@ function updateToDoList(listName) {
   todoTasks.innerHTML = "";
   todoTitle.textContent = listName;
 
-  if(taskLists[listName]) {
+  if (taskLists[listName] && Array.isArray(taskLists[listName])) {
     taskLists[listName].forEach((task) => {
-const taskElement = document.createElement("li");
-taskElement.textContent = task;
-todoTasks.appendChild(taskElement);
-    })
+      const taskElement = document.createElement("li");
+      taskElement.textContent = task;
+      todoTasks.appendChild(taskElement);
+    });
   }
 }
 
