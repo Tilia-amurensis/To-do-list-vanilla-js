@@ -1,5 +1,4 @@
 //selectors
-
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
@@ -13,7 +12,7 @@ const taskLists = {};
 
 buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
-listItem.addEventListener("click", handleListClick);
+taskList.addEventListener("click", handleListClick);
 
 function addTasks(event) {
   event.preventDefault(); // Запобігаємо перезавантаженню сторінки
