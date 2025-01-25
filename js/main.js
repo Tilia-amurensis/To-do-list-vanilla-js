@@ -2,10 +2,18 @@
 
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
-const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання
+const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
+const todoTasks = document.querySelector(".tasks");// Список ul
+const todoTitle = document.querySelector(".list-title");// Заголовок todo list
+const inputTodo = document.querySelector(".new.task"); //Поле для введення нового завдання
+const buttonCreateTodo = document.querySelector(".todo-body .btn.create");// Кнопка додавання нового завдання
+let activeList = null;
+const taskLists = {};
+
 
 buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
+listItem.addEventListener("click", handleListClick);
 
 function addTasks(event) {
   event.preventDefault(); // Запобігаємо перезавантаженню сторінки
@@ -15,6 +23,7 @@ function addTasks(event) {
     alert("Please enter a list name!"); // Якщо поле порожнє, показуємо попередження
     return;
   }
+
   const taskDiv = document.createElement("div");
   taskDiv.classList.add("list-container");
   taskList.appendChild(taskDiv);
@@ -56,3 +65,50 @@ function deleteCheck(event) {
     todo.classList.toggle("completed");
   }
 }
+
+function updateToDoList(listName) {
+  todoTasks.innerHTML = "";
+  todoTitle.textContent = listName;
+
+  if(taskLists[listName]) {
+    taskLists[listName].forEach((task) => {
+const taskElement = document.createElement("li");
+taskElement.textContent = task;
+todoTasks.appendChild(taskElement);
+    })
+  }
+}
+
+function handleListClick(event) {
+  const clickedList = event.target.closest(".list-name");
+  if(clickedList) {
+    activeList = clickedList.textContent;
+  }
+
+  if(!taskList[activeList]) {
+    taskLists[activeList] = [];
+  }
+
+  updateToDoList(activeList);
+}
+
+taskList.addEventListener("click", handleListClick);
+
+buttonCreateTodo.addEventListener("click" , function(event) {
+  event.preventDefault();
+
+  const taskValue = inputTodo.value.trim();
+  if(!activeList) {
+    alert("please select a list first!");
+    return;
+  }
+
+  if(taskValue === "") {
+    alert("please enter a task name!");
+    return;
+  }
+
+  taskList[activeList].push(taskValue);
+  inputTodo.value = "";
+  updateToDoList(activeList);
+});
