@@ -6,6 +6,8 @@ const todoTasks = document.querySelector(".tasks");// Список ul
 const todoTitle = document.querySelector(".list-title");// Заголовок todo list
 const inputTodo = document.querySelector(".new.task"); //Поле для введення нового завдання
 const buttonCreateTodo = document.querySelector(".todo-body .btn.create");// Кнопка додавання нового завдання
+
+
 let activeList = null;
 const taskLists = {};
 
@@ -93,21 +95,26 @@ function handleListClick(event) {
 
 taskList.addEventListener("click", handleListClick);
 
-buttonCreateTodo.addEventListener("click" , function(event) {
+buttonCreateTodo.addEventListener("click", function (event) {
   event.preventDefault();
 
-  const taskValue = inputTodo.value.trim();
-  if(!activeList) {
-    alert("please select a list first!");
+  const taskValue = inputTodo.value.trim(); // Отримуємо текст завдання
+  if (!activeList) {
+    alert("Please select a list first!");
     return;
   }
 
-  if(taskValue === "") {
-    alert("please enter a task name!");
+  if (taskValue === "") {
+    alert("Please enter a task name!");
     return;
   }
 
-  taskList[activeList].push(taskValue);
+  if (!taskLists[activeList]) {
+    taskLists[activeList] = [];
+  }
+
+  taskLists[activeList].push(taskValue); 
   inputTodo.value = "";
-  updateToDoList(activeList);
+
+  updateToDoList(activeList); 
 });
