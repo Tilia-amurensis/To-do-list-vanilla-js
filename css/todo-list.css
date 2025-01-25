@@ -31,6 +31,16 @@
   color: var(--clr-primary);
 }
 
+.tasks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tasks > li {
+  list-style-type: circle;
+}
+
 [type="checkbox"] {
   opacity: 0;
   position: absolute;
