@@ -190,15 +190,6 @@ form {
     text-align: left;
   }
 
-  .delete-btn,
-  .complete-btn {
-    background-color: var(--clr-primary);
-    border: none;
-    margin-left: 0.5em;
-    cursor: pointer; /* Робить кнопки клікабельними */
-    display: inline-flex;
-  }
-
   .todo-list {
     margin-left: 70px;
   }

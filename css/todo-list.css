@@ -11,16 +11,29 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
 }
 
 .list-title {
   margin: 0 1em 0 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    white-space: normal;
 }
 
 .task-count {
   margin: 0;
   font-size: 1rem;
+  max-width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Додає "..." при переповненні */
 }
+
 
 .todo-body {
   padding: var(--spacer);
@@ -32,15 +45,55 @@
 }
 
 .tasks {
-  display: flex;
+  list-style-position: outside;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: space-between; /* Простір між текстом і кнопками */
+  align-items: center; /* Маркери списку залишаються всередині елемента <li> */
 }
 
 .tasks > li {
-  list-style-type: circle;
+  list-style-type: circle; /* Забираємо маркери списку */
+  display: flex; /* Додаємо flex для вирівнювання тексту та кнопок */
+  justify-content: space-between; /* Простір між текстом і кнопками */
+  align-items: center; /* Вирівнюємо по центру */
+   /* Додаємо вертикальні відступи між завданнями */
+  border-bottom: 1px solid #e4e4e4; /* Опціонально: розділові лінії */
 }
 
+.tasks > li span {
+  flex-grow: 1; /* Текст займає весь доступний простір */
+  margin-right: 1em; /* Відступ між текстом і кнопками */
+}
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  word-break: break-word; /* Дозволяє розривати довгі слова */
+  width: 100%; /* Щоб елемент не виходив за межі */
+  padding: 10px;
+}
+
+.task-text {
+  flex: 1; /* Дозволяє тексту займати доступний простір */
+  min-width: 0; /* Запобігає розтягуванню */
+}
+
+.tasks .complete-btn,
+.tasks .delete-btn {
+  margin-left: 0.5em; /* Відступ між іконками */
+  padding: 0.2em 0.4em; /* Збільшуємо клікабельну область кнопок */
+  font-size: 1rem; /* Розмір кнопок */
+  border-radius: 5px; /* Згладжені кути */
+  transition: background-color 0.3s ease;
+  display: flex;
+  gap: 8px; 
+}
+
+.tasks .complete-btn:hover,
+.tasks .delete-btn:hover {
+  background-color: rgba(0, 0, 0, 0.1); /* Ефект при наведенні */
+}
 [type="checkbox"] {
   opacity: 0;
   position: absolute;
@@ -136,12 +189,10 @@
   color: var(--clr-light);
 }
 
-.btn.delete {
-  opacity: 0.7;
-  font-size: 1rem;
-  transition: color 200ms;
-}
-
-.btn.delete:hover {
-  color: var(--clr-warning);
+.tasks .complete-btn, .tasks .delete-btn {
+  background-color: var(--clr-light);
+  color: rgb(7, 7, 7);
+  border: none;
+  margin-left: 0.5em;
+  cursor: pointer; 
 }

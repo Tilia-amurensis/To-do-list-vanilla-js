@@ -2,15 +2,13 @@
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
-const todoTasks = document.querySelector(".tasks");// Список ul
-const todoTitle = document.querySelector(".list-title");// Заголовок todo list
+const todoTasks = document.querySelector(".tasks"); // Список ul
+const todoTitle = document.querySelector(".list-title"); // Заголовок todo list
 const inputTodo = document.querySelector(".new.task"); //Поле для введення нового завдання
-const buttonCreateTodo = document.querySelector(".todo-body .btn.create");// Кнопка додавання нового завдання
-
+const buttonCreateTodo = document.querySelector(".todo-body .btn.create"); // Кнопка додавання нового завдання
 
 let activeList = null;
 const taskLists = {};
-
 
 buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
@@ -61,36 +59,80 @@ function deleteCheck(event) {
   }
 
   const checkButton = item.closest(".complete-btn");
-  if(checkButton) {
+  if (checkButton) {
     const todo = checkButton.parentElement;
     todo.classList.toggle("completed");
   }
 }
 
-function updateToDoList(listName) {
-  todoTasks.innerHTML = "";
-  todoTitle.textContent = listName;
+function updateTodoList(listName) {
+  todoTasks.innerHTML = ""; // Очищаємо завдання
+  todoTitle.textContent = listName; // Оновлюємо заголовок списку
 
+  const taskCount = taskLists[listName]?.length || 0;
+  
+
+  // Перевірка існування списку перед додаванням завдань
   if (taskLists[listName] && Array.isArray(taskLists[listName])) {
-    taskLists[listName].forEach((task) => {
+    taskLists[listName].forEach((task, index) => {
       const taskElement = document.createElement("li");
-      taskElement.textContent = task;
+      taskElement.classList.add("task-item");
+
+      // Додаємо текст завдання
+      const taskText = document.createElement("span");
+      taskText.textContent = task;
+      taskElement.appendChild(taskText);
+
+      // Додаємо кнопку "Completed"
+      const completedSecondButton = document.createElement("button");
+      completedSecondButton.innerHTML = '<i class="bi bi-check2-square"></i>';
+      completedSecondButton.classList.add("complete-btn");
+      completedSecondButton.addEventListener("click", () => {
+        taskElement.classList.toggle("completed"); // Позначаємо/знімаємо як виконане
+      });
+
+      // Додаємо кнопку "Delete"
+      const deletedSecondButton = document.createElement("button");
+      deletedSecondButton.innerHTML = '<i class="bi bi-trash3"></i>';
+      deletedSecondButton.classList.add("delete-btn");
+      deletedSecondButton.addEventListener("click", () => {
+        taskLists[listName].splice(index, 1); // Видаляємо завдання з масиву
+        updateTodoList(listName); // Оновлюємо відображення
+      });
+
+      // Додаємо кнопки до елемента завдання
+      taskElement.appendChild(completedSecondButton);
+      taskElement.appendChild(deletedSecondButton);
+
+      // Додаємо елемент завдання до списку
       todoTasks.appendChild(taskElement);
     });
+  }
+  updateTaskCount();
+}
+
+function updateTaskCount() {
+  if (!activeList || !taskLists[activeList]) return;
+
+  const taskCount = taskLists[activeList].length;
+  const taskCountElement = document.querySelector(".task-count"); // Знайди елемент task count
+
+  if (taskCountElement) {
+    taskCountElement.textContent = `${taskCount} tasks remaining`;
   }
 }
 
 function handleListClick(event) {
   const clickedList = event.target.closest(".list-name");
-  if(clickedList) {
+  if (clickedList) {
     activeList = clickedList.textContent;
   }
 
-  if(!taskList[activeList]) {
+  if (!taskList[activeList]) {
     taskLists[activeList] = [];
   }
 
-  updateToDoList(activeList);
+  updateTodoList(activeList);
 }
 
 taskList.addEventListener("click", handleListClick);
@@ -113,8 +155,9 @@ buttonCreateTodo.addEventListener("click", function (event) {
     taskLists[activeList] = [];
   }
 
-  taskLists[activeList].push(taskValue); 
+  taskLists[activeList].push(taskValue);
   inputTodo.value = "";
 
-  updateToDoList(activeList); 
+  updateTodoList(activeList);
+  updateTaskCount();
 });
