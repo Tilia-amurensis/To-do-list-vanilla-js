@@ -1,8 +1,10 @@
+import { updateTodoList } from "./todo-list.js";
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
 export let activeList = null;
 export const taskLists = {};
+
 buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
 taskList.addEventListener("click", handleListClick);
