@@ -50,6 +50,12 @@ export function deleteCheck(event) {
     const todo = deleteButton.parentElement;
     todo.remove();
   }
+
+  const checkButton = item.closest(".complete-btn");
+  if (checkButton) {
+    const todo = checkButton.parentElement;
+    todo.classList.toggle("completed");
+  }
 }
 
 // Обробник кліку на список
