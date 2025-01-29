@@ -1,4 +1,5 @@
 import { activeList, taskLists } from "./tasks-list.js";
+import { showAlert } from "./alert.js";
 
 const todoTasks = document.querySelector(".tasks");
 const todoTitle = document.querySelector(".list-title");
@@ -61,12 +62,12 @@ buttonCreateTodo.addEventListener("click", function (event) {
 
   const taskValue = inputTodo.value.trim();
   if (!activeList) {
-    alert("Please select a list first!");
+   showAlert("Please select a list first!", "#f44336");
     return;
   }
 
   if (taskValue === "") {
-    alert("Please enter a task name!");
+    showAlert("Please enter a task name!", "#f44336");
     return;
   }
 
