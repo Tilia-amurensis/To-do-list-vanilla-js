@@ -1,5 +1,5 @@
 :root {
-  --clr-primary: rgb(101, 124, 100);
+  --clr-primary: rgb(69, 95, 69);
   --clr-light: #f4f4f4;
   --clr-dark: #333;
   --clr-warning: rgb(99, 36, 36);
@@ -20,15 +20,16 @@ body {
   background-color: var(--clr-primary);
   color: var(--clr-light);
   display: grid;
-  grid:
-    "header header header header" auto "...... lists  active ......" auto/1fr minmax(
-      100px,
-      400px
-    )
-    minmax(250px, 500px) 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-columns: 1fr minmax(100px, 400px) minmax(250px, 500px) 1fr;
+  grid-template-areas:
+    "header header header header"
+    "...... lists active ......";
+  height: 80vh;
 }
 
 .title {
+  position: relative;
   grid-area: header;
   text-align: center;
   font-size: calc(7vw + 2rem);
@@ -36,6 +37,7 @@ body {
   color: rgba(0, 0, 0, 0.1);
   letter-spacing: 2px;
   margin: -0.3em 0 0.5em;
+  white-space: nowrap;
 }
 
 form {
@@ -54,6 +56,14 @@ form {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.lists {
+  grid-area: lists;
+}
+
+.active {
+  grid-area: active;
 }
 
 @media (min-width: 320px) {

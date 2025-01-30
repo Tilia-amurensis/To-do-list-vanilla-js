@@ -7,6 +7,6 @@ customAlert.classList.add("show");
 
 setTimeout(() => {
     customAlert.classList.remove("show");
-    setTimeout(() => customAlert.classList.add("show"), 500 )
+    setTimeout(() => customAlert.classList.add("hidden"), 500 )
 }, 3000);
 }

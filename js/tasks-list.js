@@ -15,7 +15,7 @@ export function addTasks(event) {
   const inputValue = inputField.value.trim();
 
   if (inputValue === "") {
-    alert("Please enter a list name!");
+    showAlert("Please enter a list name!");
     return;
   }
 
