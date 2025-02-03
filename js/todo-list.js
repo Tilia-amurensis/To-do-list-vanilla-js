@@ -5,7 +5,7 @@ const todoTasks = document.querySelector(".tasks");
 const todoTitle = document.querySelector(".list-title");
 const inputTodo = document.querySelector(".new.task");
 const buttonCreateTodo = document.querySelector(".todo-body .btn.create");
-
+const API_URL = "http://localhost:5000/todos";
 // Оновлює відображення завдань
 export function updateTodoList(listName) {
   todoTasks.innerHTML = "";
