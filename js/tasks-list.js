@@ -1,5 +1,7 @@
 import { updateTodoList } from "./todo-list.js";
 import { showAlert } from "./alert.js";
+import { createTaskList } from "./api.js";
+import { deleteTaskList } from "./api.js";
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
@@ -10,8 +12,8 @@ buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
 taskList.addEventListener("click", handleListClick);
 // Додає новий список
-export function addTasks(event) {
-  event.preventDefault(); // Запобігаємо перезавантаженню сторінки
+export async function addTasks(event) {
+  event.preventDefault();
   const inputValue = inputField.value.trim();
 
   if (inputValue === "") {
@@ -19,43 +21,41 @@ export function addTasks(event) {
     return;
   }
 
-  const taskDiv = document.createElement("div");
-  taskDiv.classList.add("list-container");
-  taskList.appendChild(taskDiv);
-
-  const newTask = document.createElement("li");
-  newTask.innerText = inputValue;
-  newTask.classList.add("list-name");
-  taskDiv.appendChild(newTask);
-
+  await createTaskList(inputValue); // Додаємо список на сервер
   inputField.value = "";
 
-  const completedButton = document.createElement("button");
-  completedButton.innerHTML = '<i class="bi bi-check2-square"></i>';
-  completedButton.classList.add("complete-btn");
-  taskDiv.appendChild(completedButton);
+  updateTaskLists(); // Оновлюємо списки
+}
 
-  const deletedButton = document.createElement("button");
-  deletedButton.innerHTML = '<i class="bi bi-trash3"></i>';
-  deletedButton.classList.add("delete-btn");
-  taskDiv.appendChild(deletedButton);
+async function updateTaskLists() {
+  const lists = await getTaskLists();
+  taskList.innerHTML = "";
+  lists.forEach((listName) => {
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("list-container");
 
-  taskLists[inputValue] = []; // Додаємо новий список у об'єкт
+    const newTask = document.createElement("li");
+    newTask.innerText = listName;
+    newTask.classList.add("list-name");
+    newTask.addEventListener("click", () => {
+      activeList = listName;
+      updateTodoList(activeList);
+    });
+
+    taskDiv.appendChild(newTask);
+    taskList.appendChild(taskDiv);
+  });
 }
 
 // Видаляє список
-export function deleteCheck(event) {
+export async function deleteCheck(event) {
   const item = event.target;
   const deleteButton = item.closest(".delete-btn");
-  if (deleteButton) {
-    const todo = deleteButton.parentElement;
-    todo.remove();
-  }
 
-  const checkButton = item.closest(".complete-btn");
-  if (checkButton) {
-    const todo = checkButton.parentElement;
-    todo.classList.toggle("completed");
+  if (deleteButton) {
+    const listName = deleteButton.parentElement.textContent.trim();
+    await deleteTaskList(listName); // Видаляємо через API
+    updateTaskLists(); // Оновлюємо відображення списків
   }
 }
 

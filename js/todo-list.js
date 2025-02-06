@@ -1,46 +1,47 @@
 import { activeList, taskLists } from "./tasks-list.js";
 import { showAlert } from "./alert.js";
-
+import { getTasks } from "./api.js";
+import { addTask } from "./api.js";
 const todoTasks = document.querySelector(".tasks");
 const todoTitle = document.querySelector(".list-title");
 const inputTodo = document.querySelector(".new.task");
 const buttonCreateTodo = document.querySelector(".todo-body .btn.create");
 const API_URL = "http://localhost:5000/todos";
 // Оновлює відображення завдань
-export function updateTodoList(listName) {
+export async function updateTodoList(listName) {
   todoTasks.innerHTML = "";
   todoTitle.textContent = listName;
 
-  if (taskLists[listName] && Array.isArray(taskLists[listName])) {
-    taskLists[listName].forEach((task, index) => {
-      const taskElement = document.createElement("li");
-      taskElement.classList.add("task-item");
+  const tasks = await getTasks(listName); // Отримати завдання з сервера
 
-      const taskText = document.createElement("span");
-      taskText.textContent = task;
-      taskElement.appendChild(taskText);
+  tasks.forEach((task, index) => {
+    const taskElement = document.createElement("li");
+    taskElement.classList.add("task-item");
 
-      const completedSecondButton = document.createElement("button");
-      completedSecondButton.innerHTML = '<i class="bi bi-check2-square"></i>';
-      completedSecondButton.classList.add("complete-btn");
-      completedSecondButton.addEventListener("click", () => {
-        taskElement.classList.toggle("completed");
-      });
+    const taskText = document.createElement("span");
+    taskText.textContent = task;
+    taskElement.appendChild(taskText);
 
-      const deletedSecondButton = document.createElement("button");
-      deletedSecondButton.innerHTML = '<i class="bi bi-trash3"></i>';
-      deletedSecondButton.classList.add("delete-btn");
-      deletedSecondButton.addEventListener("click", () => {
-        taskLists[listName].splice(index, 1);
-        updateTodoList(listName);
-        updateTaskCount();
-      });
-
-      taskElement.appendChild(completedSecondButton);
-      taskElement.appendChild(deletedSecondButton);
-      todoTasks.appendChild(taskElement);
+    const completedSecondButton = document.createElement("button");
+    completedSecondButton.innerHTML = '<i class="bi bi-check2-square"></i>';
+    completedSecondButton.classList.add("complete-btn");
+    completedSecondButton.addEventListener("click", () => {
+      taskElement.classList.toggle("completed");
     });
-  }
+
+    const deletedSecondButton = document.createElement("button");
+    deletedSecondButton.innerHTML = '<i class="bi bi-trash3"></i>';
+    deletedSecondButton.classList.add("delete-btn");
+    deletedSecondButton.addEventListener("click", async () => {
+      await deleteTask(listName, index); // Видалити завдання через API
+      updateTodoList(listName); // Оновити відображення
+    });
+
+    taskElement.appendChild(completedSecondButton);
+    taskElement.appendChild(deletedSecondButton);
+    todoTasks.appendChild(taskElement);
+  });
+
   updateTaskCount();
 }
 
@@ -57,12 +58,12 @@ export function updateTaskCount() {
 }
 
 // Додає нове завдання
-buttonCreateTodo.addEventListener("click", function (event) {
+buttonCreateTodo.addEventListener("click", async function (event) {
   event.preventDefault();
 
   const taskValue = inputTodo.value.trim();
   if (!activeList) {
-   showAlert("Please select a list first!", "#f44336");
+    showAlert("Please select a list first!", "#f44336");
     return;
   }
 
@@ -71,11 +72,7 @@ buttonCreateTodo.addEventListener("click", function (event) {
     return;
   }
 
-  if (!taskLists[activeList]) {
-    taskLists[activeList] = [];
-  }
-
-  taskLists[activeList].push(taskValue);
+  await addTask(activeList, taskValue); // Додаємо через сервер
   inputTodo.value = "";
 
   updateTodoList(activeList);

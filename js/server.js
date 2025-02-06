@@ -3,7 +3,16 @@ const fs = require('fs');
 
 const PORT = 5000;
 const FILE_NAME = "todos.json";
+const LISTS_FILE = "lists.json";
 
+function readLists() {
+    if(!fs.existsSync(LISTS_FILE)) return [];
+    return JSON.parse(fs.readFileSync(LISTS_FILE, "utf-8"));
+}
+
+function saveLists(lists) {
+   fs.writeFileSync(LISTS_FILE, JSON.stringify(lists, null, 2));
+}
 
 function readTodos () {
     if(!fs.existsSync(FILE_NAME)) return [];
