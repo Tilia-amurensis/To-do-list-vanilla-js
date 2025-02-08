@@ -39,7 +39,7 @@ export function addTasks(event) {
   deletedButton.classList.add("delete-btn");
   taskDiv.appendChild(deletedButton);
 
-  taskLists[inputValue] = {completed: false}; // Додаємо новий список у об'єкт
+  taskLists[inputValue] = [{completed: false}]; // Додаємо новий список у об'єкт
   localStorage.setItem("taskListData", JSON.stringify(taskLists));
 }
 
@@ -96,7 +96,7 @@ export function deleteCheck(event) {
     todo.classList.toggle("completed"); // Додаємо/знімаємо клас "completed"
 
     if (taskLists[itemID]) {
-      taskLists[itemID].completed = todo.classList.contains("completed"); // Оновлюємо статус виконання
+      taskLists[itemID][0].completed = todo.classList.contains("completed"); // Оновлюємо статус виконання
       localStorage.setItem("taskListData", JSON.stringify(taskLists)); // Зберігаємо оновлені дані
     }
   }

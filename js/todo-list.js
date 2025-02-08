@@ -68,15 +68,28 @@ buttonCreateTodo.addEventListener("click", function (event) {
 
   if (taskValue === "") {
     showAlert("Please enter a task name!", "#f44336");
-    return;
-  }
+    return; }
 
   if (!taskLists[activeList]) {
     taskLists[activeList] = [];
   }
 
-  taskLists[activeList].push(taskValue);
+  taskLists[activeList].push({ text: `${taskValue}` });
+  //localStorage.setItem("taskListData", JSON.stringify(taskLists));
   inputTodo.value = "";
 
   updateTodoList(activeList);
 });
+
+
+function loadFromLocalStorage() {
+  try {
+    const storedData = localStorage.getItem("taskListData");
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      Object.assign(taskLists, parsedData); // Оновлюємо об'єкт, а не переприсвоюємо змінну
+    }
+  } catch (error) {
+    console.error("Error loading data from localStorage:", error);
+  }
+}
