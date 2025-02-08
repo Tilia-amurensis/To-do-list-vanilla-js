@@ -4,8 +4,7 @@ const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
 export let activeList = null;
-export const taskLists = {};
-
+export const taskLists = JSON.parse(localStorage.getItem("taskListData")) || {};
 buttonCreateTasks.addEventListener("click", addTasks);
 taskList.addEventListener("click", deleteCheck);
 taskList.addEventListener("click", handleListClick);
@@ -40,7 +39,39 @@ export function addTasks(event) {
   deletedButton.classList.add("delete-btn");
   taskDiv.appendChild(deletedButton);
 
-  taskLists[inputValue] = []; // Додаємо новий список у об'єкт
+  taskLists[inputValue] = {completed: false}; // Додаємо новий список у об'єкт
+  localStorage.setItem("taskListData", JSON.stringify(taskLists));
+}
+
+export function loadTaskList() {
+  taskList.innerHTML = "";
+
+  for(const listName in taskLists) {
+    const taskDiv = document.createElement("div");
+    taskDiv.classList.add("list-container");
+    taskList.appendChild(taskDiv);
+  
+    const newTask = document.createElement("li");
+    newTask.innerText = listName;
+    newTask.classList.add("list-name");
+    taskDiv.appendChild(newTask);
+  
+    inputField.value = "";
+  
+    const completedButton = document.createElement("button");
+    completedButton.innerHTML = '<i class="bi bi-check2-square"></i>';
+    completedButton.classList.add("complete-btn");
+    taskDiv.appendChild(completedButton);
+  
+    const deletedButton = document.createElement("button");
+    deletedButton.innerHTML = '<i class="bi bi-trash3"></i>';
+    deletedButton.classList.add("delete-btn");
+    taskDiv.appendChild(deletedButton);
+
+    if(taskLists[listName][0].completed) {
+      taskDiv.classList.add("completed");
+    }
+  }
 }
 
 // Видаляє список
@@ -49,13 +80,25 @@ export function deleteCheck(event) {
   const deleteButton = item.closest(".delete-btn");
   if (deleteButton) {
     const todo = deleteButton.parentElement;
+    const itemID = todo.querySelector(".list-name").innerText.trim();
+    if(taskLists[itemID]){
+      delete taskLists[itemID];
+      localStorage.setItem("taskListData", JSON.stringify(taskLists));
+    }
     todo.remove();
   }
 
   const checkButton = item.closest(".complete-btn");
   if (checkButton) {
     const todo = checkButton.parentElement;
-    todo.classList.toggle("completed");
+    const itemID = todo.querySelector(".list-name").innerText.trim();
+
+    todo.classList.toggle("completed"); // Додаємо/знімаємо клас "completed"
+
+    if (taskLists[itemID]) {
+      taskLists[itemID].completed = todo.classList.contains("completed"); // Оновлюємо статус виконання
+      localStorage.setItem("taskListData", JSON.stringify(taskLists)); // Зберігаємо оновлені дані
+    }
   }
 }
 
@@ -72,3 +115,5 @@ export function handleListClick(event) {
     updateTodoList(activeList);
   }
 }
+
+document.addEventListener("DOMContentLoaded", loadTaskList);
