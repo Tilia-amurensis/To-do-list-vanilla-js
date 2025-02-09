@@ -13,11 +13,12 @@ export function updateTodoList(listName) {
 
   if (taskLists[listName] && Array.isArray(taskLists[listName])) {
     taskLists[listName].forEach((task, index) => {
+      if(index === 0) return;
       const taskElement = document.createElement("li");
       taskElement.classList.add("task-item");
 
       const taskText = document.createElement("span");
-      taskText.textContent = task;
+      taskText.textContent = task.text;
       taskElement.appendChild(taskText);
 
       const completedSecondButton = document.createElement("button");
@@ -39,6 +40,7 @@ export function updateTodoList(listName) {
       taskElement.appendChild(completedSecondButton);
       taskElement.appendChild(deletedSecondButton);
       todoTasks.appendChild(taskElement);
+      localStorage.setItem("taskListData", JSON.stringify(taskLists));
     });
   }
   updateTaskCount();
@@ -75,7 +77,7 @@ buttonCreateTodo.addEventListener("click", function (event) {
   }
 
   taskLists[activeList].push({ text: `${taskValue}` });
-  //localStorage.setItem("taskListData", JSON.stringify(taskLists));
+  localStorage.setItem("taskListData", JSON.stringify(taskLists));
   inputTodo.value = "";
 
   updateTodoList(activeList);
