@@ -5,15 +5,22 @@ const todoTasks = document.querySelector(".tasks");
 const todoTitle = document.querySelector(".list-title");
 const inputTodo = document.querySelector(".new.task");
 const buttonCreateTodo = document.querySelector(".todo-body .btn.create");
-
+loadFromLocalStorage();
 // Оновлює відображення завдань
 export function updateTodoList(listName) {
   todoTasks.innerHTML = "";
   todoTitle.textContent = listName;
 
+  if (taskLists[listName][0].completed) {
+    taskLists[listName].forEach(() => {
+      if(index === 0) return;
+      taskLists.isCompleted = true;
+    })
+  }
+
   if (taskLists[listName] && Array.isArray(taskLists[listName])) {
     taskLists[listName].forEach((task, index) => {
-      if(index === 0) return;
+      if (index === 0) return;
       const taskElement = document.createElement("li");
       taskElement.classList.add("task-item");
 
@@ -26,6 +33,17 @@ export function updateTodoList(listName) {
       completedSecondButton.classList.add("complete-btn");
       completedSecondButton.addEventListener("click", () => {
         taskElement.classList.toggle("completed");
+        const activeTaskListId = document
+          .querySelector(".list-title")
+          .innerText.trim();
+        const itemId = task.text.trim();
+
+        taskLists[activeTaskListId].forEach((taskFromTaskLists) => {
+          if (taskFromTaskLists.text === itemId) {
+            taskFromTaskLists.isCompleted = !taskFromTaskLists.isCompleted;
+          }
+        });
+        localStorage.setItem("taskListData", JSON.stringify(taskLists));
       });
 
       const deletedSecondButton = document.createElement("button");
@@ -33,6 +51,7 @@ export function updateTodoList(listName) {
       deletedSecondButton.classList.add("delete-btn");
       deletedSecondButton.addEventListener("click", () => {
         taskLists[listName].splice(index, 1);
+        localStorage.setItem("taskListData", JSON.stringify(taskLists));
         updateTodoList(listName);
         updateTaskCount();
       });
@@ -40,6 +59,19 @@ export function updateTodoList(listName) {
       taskElement.appendChild(completedSecondButton);
       taskElement.appendChild(deletedSecondButton);
       todoTasks.appendChild(taskElement);
+
+      [...todoTasks.children].forEach((task) => {
+        const taskListId = document
+          .querySelector(".list-title")
+          .textContent.trim();
+        const searchedTask = taskLists[taskListId].find(
+          (taskFromList) => taskFromList.text === task.innerText
+        );
+        if (searchedTask.isCompleted) {
+          task.classList.add("completed");
+        }
+      });
+
       localStorage.setItem("taskListData", JSON.stringify(taskLists));
     });
   }
@@ -50,7 +82,7 @@ export function updateTodoList(listName) {
 export function updateTaskCount() {
   if (!activeList || !taskLists[activeList]) return;
 
-  const taskCount = taskLists[activeList].length;
+  const taskCount = taskLists[activeList].length - 1;
   const taskCountElement = document.querySelector(".task-count");
 
   if (taskCountElement) {
@@ -64,25 +96,25 @@ buttonCreateTodo.addEventListener("click", function (event) {
 
   const taskValue = inputTodo.value.trim();
   if (!activeList) {
-   showAlert("Please select a list first!", "#f44336");
+    showAlert("Please select a list first!", "#f44336");
     return;
   }
 
   if (taskValue === "") {
     showAlert("Please enter a task name!", "#f44336");
-    return; }
+    return;
+  }
 
   if (!taskLists[activeList]) {
     taskLists[activeList] = [];
   }
 
-  taskLists[activeList].push({ text: `${taskValue}` });
+  taskLists[activeList].push({ text: `${taskValue}`, isCompleted: false });
   localStorage.setItem("taskListData", JSON.stringify(taskLists));
   inputTodo.value = "";
 
   updateTodoList(activeList);
 });
-
 
 function loadFromLocalStorage() {
   try {

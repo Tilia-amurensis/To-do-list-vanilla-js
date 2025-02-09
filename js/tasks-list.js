@@ -3,6 +3,8 @@ import { showAlert } from "./alert.js";
 const taskList = document.querySelector(".task-list"); // Список <ul>
 const inputField = document.querySelector(".new.list"); // Поле для введення нового списку
 const buttonCreateTasks = document.querySelector(".all-tasks .btn.create"); // Кнопка додавання нового списку
+const todoTasks = document.querySelector(".tasks"); 
+const todoTitle = document.querySelector(".list-title");
 export let activeList = null;
 export const taskLists = JSON.parse(localStorage.getItem("taskListData")) || {};
 buttonCreateTasks.addEventListener("click", addTasks);
@@ -81,10 +83,22 @@ export function deleteCheck(event) {
   if (deleteButton) {
     const todo = deleteButton.parentElement;
     const itemID = todo.querySelector(".list-name").innerText.trim();
-    if(taskLists[itemID]){
-      delete taskLists[itemID];
-      localStorage.setItem("taskListData", JSON.stringify(taskLists));
+
+    // Переконуємося, що Task List існує перед видаленням
+    if (taskLists[itemID]) {
+      delete taskLists[itemID]; // Видаляємо список із taskLists
+      localStorage.setItem("taskListData", JSON.stringify(taskLists)); // Оновлюємо localStorage
     }
+
+    // Якщо це активний список, очищаємо завдання у todoTasks
+    if (activeList === itemID) {
+      activeList = null;
+      todoTasks.innerHTML = ""; // Очищуємо відображення завдань
+      todoTitle.textContent = "Select a list"; // Міняємо заголовок
+      updateTaskCount();
+    }
+
+    // Видаляємо сам Task List із DOM
     todo.remove();
   }
 
@@ -117,3 +131,23 @@ export function handleListClick(event) {
 }
 
 document.addEventListener("DOMContentLoaded", loadTaskList);
+
+document.addEventListener("DOMContentLoaded", () => {
+  // const completeBtn = document.querySelector(".complete-btn");
+  document.body.addEventListener("click", (event) => {
+    if(event.target.closest(".complete-btn")){
+      loadTaskList();
+    }
+    if (event.target.closest(".delete-btn")) {
+      loadTaskList();
+      console.log(
+        Object.keys(localStorage.getItem("taskListData")).length
+      );
+      if (Object.keys(localStorage.getItem("taskListData")).length === 2) {
+        window.location.reload();
+      }
+    }
+  })
+  loadTaskList();
+
+});
